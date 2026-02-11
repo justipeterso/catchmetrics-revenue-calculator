@@ -15,21 +15,29 @@
     }
     .container { width: 100%; max-width: 550px; margin: 0 auto; }
     
-    /* Typography */
-    h1 { font-size: clamp(1.7rem, 8vw, 2.3rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 0.5rem; text-align: center; }
+    /* Typography - Hormozi Stack */
+    h1 { font-size: clamp(1.7rem, 8vw, 2.3rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 0.6rem; text-align: center; color: #111827; }
     .highlight-red { color: #dc2626; }
-    .subheadline { font-size: 0.95rem; color: #4b5563; text-align: center; margin-bottom: 1rem; }
+    .subheadline { font-size: 1rem; color: #4b5563; text-align: center; margin-bottom: 1.25rem; max-width: 95%; margin-left: auto; margin-right: auto; }
 
-    /* Cards */
+    /* Main Offer Card */
     .card { background: white; border-radius: 1rem; padding: 1.25rem; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-bottom: 1rem; }
     
     /* Inputs */
     .input-group { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1rem; }
-    .input-field { width: 100%; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.8rem; font-size: 1rem; outline: none; }
-    .cta-button { background: #2563eb; color: white; padding: 1.1rem; border-radius: 0.6rem; font-weight: 800; font-size: 1.1rem; border: none; cursor: pointer; width: 100%; transition: transform 0.1s; text-transform: uppercase; }
+    .input-field { width: 100%; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.8rem; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+    .input-field:focus { border-color: #2563eb; background: white; }
+    
+    .cta-button { background: #2563eb; color: white; padding: 1.1rem; border-radius: 0.6rem; font-weight: 800; font-size: 1.2rem; border: none; cursor: pointer; width: 100%; transition: transform 0.1s; text-transform: uppercase; }
     .cta-button:active { transform: scale(0.97); }
+    .micro-copy { font-size: 0.75rem; color: #6b7280; text-align: center; margin-top: 0.6rem; font-weight: 500; }
 
-    /* Loading Steps */
+    /* Bullet Stack */
+    .bullet-stack { margin: 1rem 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .bullet-item { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.85rem; color: #374151; line-height: 1.4; }
+    .bullet-item span { color: #10b981; font-weight: 900; }
+
+    /* Sophisticated Loading State */
     .loading-header { font-weight: 800; font-size: 1.1rem; margin-bottom: 0.5rem; color: #111827; text-align: center;}
     .progress-bar { height: 0.5rem; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin: 1rem 0; }
     .progress-fill { height: 100%; background: #2563eb; width: 0%; transition: width 0.4s ease; }
@@ -40,26 +48,22 @@
     .step-item.active .spinner { display: block; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Results Header */
-    .shock-header { background: #111827; color: white; border-radius: 0.75rem; padding: 1.5rem 1rem; text-align: center; margin-bottom: 1rem; position: relative; }
+    /* Results Header & Visuals */
+    .shock-header { background: #111827; color: white; border-radius: 0.75rem; padding: 1.5rem 1rem; text-align: center; margin-bottom: 1rem; }
     .leak-total { font-size: 2.8rem; font-weight: 900; color: #f87171; line-height: 1; margin: 0.5rem 0; }
-    .pulse { width: 10px; height: 10px; background: #ef4444; border-radius: 50%; display: inline-block; margin-right: 5px; box-shadow: 0 0 0 rgba(239, 68, 68, 0.4); animation: pulse 2s infinite; }
+    .pulse { width: 10px; height: 10px; background: #ef4444; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
     @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
 
-    /* Comparison Table */
     .comp-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85rem; }
-    .comp-table th { text-align: left; padding: 0.5rem; color: #6b7280; font-weight: 600; }
+    .comp-table th { text-align: left; padding: 0.5rem; color: #6b7280; }
     .comp-table td { padding: 0.75rem 0.5rem; border-top: 1px solid #f3f4f6; }
-    .your-site { background: #fef2f2; color: #b91c1c; font-weight: 700; border-radius: 4px; }
+    .your-site { background: #fef2f2; color: #b91c1c; font-weight: 700; }
 
-    /* Math Breakdown */
     .math-card { background: #f8fafc; border-left: 4px solid #2563eb; padding: 1rem; margin-top: 1rem; }
     .math-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem; }
     .math-row.total { border-top: 1px solid #e2e8f0; padding-top: 0.5rem; font-weight: 800; color: #2563eb; }
 
-    .source-tag { font-size: 0.7rem; color: #9ca3af; display: block; margin-top: 0.2rem; font-style: italic; }
     .guarantee-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 0.75rem; padding: 1rem; margin-top: 1.5rem; font-size: 0.85rem; color: #92400e; }
-    
     .hidden { display: none !important; }
   </style>
 </head>
@@ -68,14 +72,25 @@
   <div class="container">
     <div id="initialState">
       <h1>Is Your B2B Storefront Leaking <span class="highlight-red">30% of Your Top Line?</span></h1>
-      <p class="subheadline">Identify the "Silent Killers" in 60 seconds.</p>
+      <p class="subheadline">
+        Most brands pay the "Ad Tax" to get visitors, then pay a "Friction Tax" because their site is too slow to convert them.
+      </p>
+      
       <div class="card">
         <div class="input-group">
           <input type="url" id="urlInput" class="input-field" placeholder="Your Website URL" />
           <input type="number" id="monthlyTraffic" class="input-field" placeholder="Monthly Visitors" />
           <input type="number" id="aov" class="input-field" placeholder="Avg Order Value ($)" />
         </div>
-        <button class="cta-button" onclick="runDiagnostic()">🛡️ Scan My Store (Free)</button>
+
+        <div class="bullet-stack">
+          <div class="bullet-item"><span>✓</span> <strong>Identify the "Silent Killers":</strong> Find the 3 specific scripts killing your checkout.</div>
+          <div class="bullet-item"><span>✓</span> <strong>Zero Effort:</strong> Just paste your URL. No technical skills required.</div>
+          <div class="bullet-item"><span>✓</span> <strong>Instant ROI:</strong> See exactly how much "Found Profit" is waiting for you.</div>
+        </div>
+
+        <button class="cta-button" onclick="runDiagnostic()">🛡️ SCAN MY STORE (FREE)</button>
+        <p class="micro-copy">Results in < 60 seconds. No credit card required.</p>
       </div>
     </div>
 
@@ -96,36 +111,31 @@
         <p style="font-weight: 800; font-size: 1rem;">Benchmark Comparison</p>
         <table class="comp-table">
           <thead>
-            <tr><th>Site Performance</th><th>Load Time</th><th>Conv. Rate</th></tr>
+            <tr><th>Performance</th><th>Load Time</th><th>Conv. Rate</th></tr>
           </thead>
           <tbody>
-            <tr><td>Industry Average (B2B)</td><td>2.1s</td><td>2.40%</td></tr>
-            <tr><td>Top 10% Performers</td><td>1.2s</td><td>3.15%</td></tr>
+            <tr><td>Industry Average</td><td>2.1s</td><td>2.40%</td></tr>
             <tr class="your-site"><td>Your Website</td><td id="actualSpeed">3.4s</td><td id="actualConv">1.80%</td></tr>
           </tbody>
         </table>
-        <span class="source-tag">Source: Google/SOASTA Benchmark Reports</span>
       </div>
 
       <div class="card">
         <p style="font-weight: 800; margin-bottom: 0.75rem;">The Cost of Slowness (Math)</p>
         <div class="math-card">
-          <div class="math-row"><span>Current Monthly Revenue:</span><span id="mathCurrent">$0</span></div>
-          <div class="math-row"><span>Loss per -1s Load Time:</span><span style="color:#dc2626;">-20% Bounce Rate</span></div>
-          <div class="math-row"><span>Loss to Third-Party Bloat:</span><span id="mathBloat">$0</span></div>
-          <div class="math-row total"><span>Total "Found" Profit Potential:</span><span id="mathDelta">$0</span></div>
+          <div class="math-row"><span>Monthly Revenue:</span><span id="mathCurrent">$0</span></div>
+          <div class="math-row total"><span>"Found" Profit Potential:</span><span id="mathDelta">$0</span></div>
         </div>
         
-        <div style="margin-top:1.5rem;">
-          <p style="font-weight: 800; font-size: 0.9rem; margin-bottom: 0.5rem;">Bottom Line Impact (per second):</p>
+        <div style="margin-top:1.25rem;">
           <p style="font-size: 0.85rem; color:#4b5563;">
-            For every <strong>1.0s</strong> you shave off your load time, your bottom line increases by <span id="perSecGain" style="color:#059669; font-weight:800;">$0</span>/mo.
+            For every <strong>1.0s</strong> you shave off load time, your bottom line increases by <span id="perSecGain" style="color:#059669; font-weight:800;">$0</span>/mo.
           </p>
         </div>
       </div>
 
       <div class="card">
-        <button class="cta-button" onclick="alert('Opening calendar...')">🛡️ CLAIM MY RECOVERED REVENUE</button>
+        <button class="cta-button" onclick="alert('Booking calendar opening...')">🛡️ CLAIM MY RECOVERED REVENUE</button>
         <div class="guarantee-box">
           <strong>The "Don't Waste My Time" Guarantee:</strong> If I can’t show you at least $5,000 in recovered revenue, I will Venmo you $100 on the spot.
         </div>
@@ -163,7 +173,7 @@
           setTimeout(() => {
             stepEl.classList.remove('active');
             stepEl.classList.add('completed');
-            stepEl.innerHTML = `<span>✓</span> <span>${auditSteps[currentStep]}</span>`;
+            stepEl.innerHTML = `<span style="color:#10b981; font-weight:bold;">✓</span> <span>${auditSteps[currentStep]}</span>`;
             currentStep++;
             processNextStep();
           }, 1000);
@@ -175,28 +185,20 @@
     }
 
     function calculateAndShow(traffic, aov) {
-      const currentConv = 0.018; // 1.8%
-      const targetConv = 0.024;  // Industry Avg (2.4%)
-      
+      const currentConv = 0.018; 
+      const targetConv = 0.024;  
       const monthlyCurrent = traffic * currentConv * aov;
       const monthlyTarget = traffic * targetConv * aov;
       const monthlyDelta = Math.round(monthlyTarget - monthlyCurrent);
-      const annualDelta = monthlyDelta * 12;
 
       document.getElementById('loadingState').classList.add('hidden');
       document.getElementById('resultsState').classList.remove('hidden');
 
-      document.getElementById('leakDisplay').textContent = '$' + annualDelta.toLocaleString() + '/YR';
+      document.getElementById('leakDisplay').textContent = '$' + (monthlyDelta * 12).toLocaleString() + '/YR';
       document.getElementById('mathCurrent').textContent = '$' + Math.round(monthlyCurrent).toLocaleString();
-      document.getElementById('mathBloat').textContent = '$' + Math.round(monthlyDelta * 0.4).toLocaleString();
       document.getElementById('mathDelta').textContent = '$' + monthlyDelta.toLocaleString() + '/mo';
-      
-      // Impact per second (assuming we are 1.4s over avg)
-      const perSec = Math.round(monthlyDelta / 1.4);
-      document.getElementById('perSecGain').textContent = '$' + perSec.toLocaleString();
-      
-      const speed = (Math.random() * 1.2 + 3.2).toFixed(2);
-      document.getElementById('actualSpeed').textContent = speed + 's';
+      document.getElementById('perSecGain').textContent = '$' + Math.round(monthlyDelta / 1.4).toLocaleString();
+      document.getElementById('actualSpeed').textContent = (Math.random() * 1.2 + 3.1).toFixed(2) + 's';
       document.getElementById('actualConv').textContent = (currentConv * 100).toFixed(2) + '%';
     }
   </script>
