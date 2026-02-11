@@ -52,6 +52,13 @@
     @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.9; } }
     .per-year { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; color: #ffffff; }
     
+    /* MONTHLY BREAKDOWN */
+    .monthly-breakdown { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.2); }
+    .monthly-row { display: flex; justify-content: center; align-items: baseline; gap: 0.5rem; margin-bottom: 0.25rem; }
+    .monthly-label { font-size: 0.85rem; color: #9ca3af; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .monthly-amount { font-size: 1.8rem; font-weight: 900; color: #fca5a5; }
+    .monthly-note { font-size: 0.75rem; color: #d1d5db; text-align: center; margin-top: 0.5rem; }
+    
     /* COMPARISON CARD */
     .comparison-card { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
     .tier-header { display: flex; justify-content: space-between; padding: 0 0.5rem; font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.25rem; }
@@ -110,6 +117,16 @@
         <div class="burn-text">Your Storefront Is Burning</div>
         <div class="leak-total" id="leakDisplay">$36,000</div>
         <div class="per-year">Per Year.</div>
+        
+        <div class="monthly-breakdown">
+          <div class="monthly-row">
+            <span class="monthly-label">That's</span>
+            <span class="monthly-amount" id="monthlyLeakDisplay">$3,000</span>
+            <span class="monthly-label">per month</span>
+          </div>
+          <p class="monthly-note">Every 30 days, this much revenue burns away</p>
+        </div>
+        
         <p style="font-size: 0.85rem; color: #9ca3af; margin-top: 1rem;">
           Your site is currently <strong>57.1% less efficient</strong> than elite competitors.
         </p>
@@ -165,7 +182,7 @@
       </button>
 
       <div class="guarantee-box">
-        <strong>The "Don't Waste My Time" Guarantee:</strong> If we can’t show you exactly where to find at least $5,000 in recovered revenue via our RUM diagnostic, we will Venmo you $100 for your time.
+        <strong>The "Don't Waste My Time" Guarantee:</strong> If we can't show you exactly where to find at least $5,000 in recovered revenue via our RUM diagnostic, we will Venmo you $100 for your time.
       </div>
     </div>
   </div>
@@ -212,6 +229,30 @@
       processNextStep();
     }
 
+    function animateNumber(element, target, duration = 2000) {
+      const start = 0;
+      const startTime = performance.now();
+      
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Easing function for dramatic effect (ease-out)
+        const easeProgress = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(start + (target - start) * easeProgress);
+        
+        element.textContent = '$' + current.toLocaleString();
+        
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          element.textContent = '$' + target.toLocaleString();
+        }
+      }
+      
+      requestAnimationFrame(update);
+    }
+
     function calculateAndShow(traffic, aov) {
       // Logic based on conversion delta (1.8% vs 4.2%)
       const currentConv = 0.018; 
@@ -224,7 +265,11 @@
       document.getElementById('loadingState').classList.add('hidden');
       document.getElementById('resultsState').classList.remove('hidden');
 
-      document.getElementById('leakDisplay').textContent = '$' + annualLeak.toLocaleString();
+      // Animate the big yearly number
+      animateNumber(document.getElementById('leakDisplay'), annualLeak, 2000);
+      
+      // Show monthly breakdown immediately
+      document.getElementById('monthlyLeakDisplay').textContent = '$' + monthlyDelta.toLocaleString();
       document.getElementById('monthlyGain').textContent = '$' + monthlyDelta.toLocaleString();
       document.getElementById('btnAmount').textContent = '$' + monthlyDelta.toLocaleString();
       
