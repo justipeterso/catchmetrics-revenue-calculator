@@ -1,37 +1,141 @@
-<div class="shock-header">
-  <div class="burn-text">Your Storefront Is Burning</div>
-  <div class="leak-total" id="leakDisplay">$36,000</div>
-  <div class="per-year">Per Year.</div>
-  
-  <div style="font-size: 1.1rem; font-weight: 700; color: #f87171; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">
-    That's <span id="monthlyLeakDisplay">$3,000</span> / Month in lost profit.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Revenue Leak Audit | CatchMetrics</title>
+  <style>
+    /* Styling for High-Conversion Lead Magnet */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f3f4f6; color: #111827; padding: 1rem; line-height: 1.35; }
+    .container { width: 100%; max-width: 550px; margin: 0 auto; }
+    h1 { font-size: clamp(1.6rem, 7.5vw, 2.2rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 0.75rem; text-align: center; color: #111827; text-transform: uppercase; }
+    .highlight-red { color: #dc2626; }
+    .body-copy { font-size: 1rem; color: #374151; text-align: center; margin-bottom: 1rem; }
+    .card { background: white; border-radius: 1rem; padding: 1.25rem; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-bottom: 1rem; }
+    .input-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    .input-field { width: 100%; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.8rem; font-size: 1rem; outline: none; }
+    .cta-button { background: #2563eb; color: white; padding: 1.1rem 0.5rem; border-radius: 0.6rem; font-weight: 900; font-size: 1.1rem; border: none; cursor: pointer; width: 100%; transition: transform 0.1s; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; text-transform: uppercase; }
+    .cta-button:active { transform: scale(0.97); }
+    .cta-subtext { font-size: 0.65rem; font-weight: 500; opacity: 0.9; text-transform: none; }
+    .progress-bar { height: 0.5rem; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin: 1rem 0; }
+    .progress-fill { height: 100%; background: #2563eb; width: 0%; transition: width 0.4s ease; }
+    .step-item { padding: 0.6rem; border-radius: 0.5rem; border: 1px solid #f3f4f6; background: #f9fafb; font-size: 0.8rem; display: flex; align-items: center; gap: 0.75rem; color: #9ca3af; margin-bottom: 0.4rem; }
+    .step-item.active { border-color: #3b82f6; background: #eff6ff; color: #1e40af; font-weight: 600; }
+    .step-item.completed { border-color: #d1fae5; background: #f0fdf4; color: #065f46; }
+    .shock-header { background: #111827; color: white; border-radius: 1rem; padding: 2.5rem 1rem; text-align: center; margin-bottom: 1rem; border-bottom: 5px solid #dc2626; }
+    .leak-total { font-size: clamp(3.2rem, 14vw, 4.5rem); font-weight: 900; color: #ef4444; line-height: 1; margin: 0.5rem 0; display: block; animation: flicker 2s infinite; }
+    @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.9; } }
+    .tier-row { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; background: white; margin-bottom: 0.5rem;}
+    .tier-row.gold { background: #f0fdf4; border-color: #bbf7d0; }
+    .tier-row.leak { background: #fef2f2; border-color: #fecaca; }
+    .payoff-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.5rem; text-align: center; }
+    .hidden { display: none !important; }
+    .spinner { width: 12px; height: 12px; border: 2px solid #e5e7eb; border-top-color: #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+    .step-item.active .spinner { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="initialState">
+      <h1>Stop Paying the <span class="highlight-red">"Friction Tax"</span></h1>
+      <p class="body-copy">Find out how much revenue you're losing to slow page speeds[cite: 10, 11].</p>
+      <div class="card">
+        <div class="input-group">
+          <input type="url" id="urlInput" class="input-field" placeholder="Website URL" />
+          <input type="number" id="monthlyTraffic" class="input-field" placeholder="Monthly Visitors" />
+          <input type="number" id="aov" class="input-field" placeholder="Avg Order Value ($)" />
+        </div>
+        <button class="cta-button" onclick="runDiagnostic()">🛡️ FIND MY LOST PROFIT</button>
+      </div>
+    </div>
+
+    <div id="loadingState" class="card hidden">
+      <p style="font-weight: 800; text-align: center;">Running Revenue Audit Algorithm...</p>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div id="stepsContainer"></div>
+    </div>
+
+    <div id="resultsState" class="hidden">
+      <div class="shock-header">
+        <div style="text-transform: uppercase; font-weight: 800; font-size: 1.1rem;">Your Storefront Is Burning</div>
+        <div class="leak-total" id="leakDisplay">$0</div>
+        <div style="font-size: 1.5rem; font-weight: 800;">PER YEAR.</div>
+        
+        <div style="font-size: 1.1rem; font-weight: 700; color: #f87171; margin-top: 1rem; text-transform: uppercase;">
+          That's <span id="monthlyLeakDisplay">$0</span> / Month in lost profit.
+        </div>
+      </div>
+
+      <div class="tier-row gold">
+        <div style="font-weight: 700;">Top 1% (Gold Standard)</div>
+        <div style="font-family: monospace; font-weight: 800;">0.8s | 4.20% Conv</div>
+      </div>
+      <div class="tier-row leak">
+        <div style="font-weight: 700;">Your Website</div>
+        <div style="font-family: monospace; font-weight: 800;"><span id="actualSpeed">3.4s</span> | <span id="actualConv">1.80%</span> Conv</div>
+      </div>
+
+      <div class="payoff-box">
+        <p style="font-weight: 800; color: #1e40af;">Fixing this adds <span id="monthlyGain">$0</span>/mo to your bottom line[cite: 13, 105].</p>
+      </div>
+
+      <button class="cta-button" onclick="alert('Opening Recovery Roadmap...')">
+        🛡️ CLAIM MY <span id="btnAmount">$0</span>/MO RECOVERY PLAN
+      </button>
+    </div>
   </div>
 
-  <p style="font-size: 0.85rem; color: #9ca3af; margin-top: 1.25rem;">
-    The "Friction Tax" is siphoning off <strong>57.1%</strong> of your potential profit.
-  </p>
-</div>
+  <script>
+    const steps = ["Analyzing Latency...", "Measuring Friction...", "Calculating Bounce...", "Finalizing Audit..."];
 
-<script>
-function calculateAndShow(traffic, aov) {
-  const currentConv = 0.018; 
-  const eliteConv = 0.042; 
-  const monthlyCurrent = traffic * currentConv * aov;
-  const monthlyElite = traffic * eliteConv * aov;
-  const monthlyDelta = Math.round(monthlyElite - monthlyCurrent);
-  const annualLeak = monthlyDelta * 12;
+    function runDiagnostic() {
+      const traffic = document.getElementById('monthlyTraffic').value;
+      const aov = document.getElementById('aov').value;
+      if(!traffic || !aov) return alert("Please fill in traffic and AOV.");
 
-  document.getElementById('loadingState').classList.add('hidden');
-  document.getElementById('resultsState').classList.remove('hidden');
+      document.getElementById('initialState').classList.add('hidden');
+      document.getElementById('loadingState').classList.remove('hidden');
 
-  // Update both displays
-  document.getElementById('leakDisplay').textContent = '$' + annualLeak.toLocaleString();
-  document.getElementById('monthlyLeakDisplay').textContent = '$' + monthlyDelta.toLocaleString();
-  document.getElementById('monthlyGain').textContent = '$' + monthlyDelta.toLocaleString();
-  document.getElementById('btnAmount').textContent = '$' + monthlyDelta.toLocaleString();
-  
-  const speed = (Math.random() * 1.5 + 2.8).toFixed(1);
-  document.getElementById('actualSpeed').textContent = speed + 's';
-  document.getElementById('actualConv').textContent = (currentConv * 100).toFixed(2) + '% Conv';
-}
-</script>
+      const container = document.getElementById('stepsContainer');
+      container.innerHTML = steps.map((s, i) => `<div class="step-item" id="step-${i}"><div class="spinner"></div><span>${s}</span></div>`).join('');
+
+      let current = 0;
+      const interval = setInterval(() => {
+        if(current < steps.length) {
+          const el = document.getElementById(`step-${current}`);
+          el.classList.add('active');
+          document.getElementById('progressFill').style.width = ((current + 1) / steps.length) * 100 + '%';
+          setTimeout(() => {
+            el.classList.remove('active');
+            el.classList.add('completed');
+            el.innerHTML = `✓ ${steps[current-1] || steps[0]}`;
+          }, 800);
+          current++;
+        } else {
+          clearInterval(interval);
+          calculateAndShow(traffic, aov);
+        }
+      }, 900);
+    }
+
+    function calculateAndShow(traffic, aov) {
+      const currentConv = 0.018; 
+      const eliteConv = 0.042; 
+      const monthlyDelta = Math.round((traffic * eliteConv * aov) - (traffic * currentConv * aov));
+      const annualLeak = monthlyDelta * 12;
+
+      document.getElementById('loadingState').classList.add('hidden');
+      document.getElementById('resultsState').classList.remove('hidden');
+
+      document.getElementById('leakDisplay').textContent = '$' + annualLeak.toLocaleString();
+      document.getElementById('monthlyLeakDisplay').textContent = '$' + monthlyDelta.toLocaleString();
+      document.getElementById('monthlyGain').textContent = '$' + monthlyDelta.toLocaleString();
+      document.getElementById('btnAmount').textContent = '$' + monthlyDelta.toLocaleString();
+      document.getElementById('actualSpeed').textContent = (Math.random() * 1.5 + 2.8).toFixed(1) + 's';
+    }
+  </script>
+</body>
+</html>
