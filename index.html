@@ -19,17 +19,19 @@
     h1 { font-size: clamp(1.6rem, 7.5vw, 2.2rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 0.75rem; text-align: center; color: #111827; text-transform: uppercase; }
     .highlight-red { color: #dc2626; }
     .body-copy { font-size: 1rem; color: #374151; text-align: center; margin-bottom: 1rem; }
-    .offer-text { font-size: 0.95rem; color: #4b5563; text-align: center; margin-bottom: 1.25rem; background: #fff; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; }
+    .offer-text { font-size: 0.95rem; color: #4b5563; text-align: center; margin-bottom: 1.25rem; background: #fff; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
 
     /* Cards */
     .card { background: white; border-radius: 1rem; padding: 1.25rem; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-bottom: 1rem; }
     
     /* Inputs */
     .input-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
-    .input-field { width: 100%; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.8rem; font-size: 1rem; outline: none; }
+    .input-field { width: 100%; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.8rem; font-size: 1rem; outline: none; transition: border 0.2s; }
+    .input-field:focus { border-color: #2563eb; background: #fff; }
     
     /* Buttons */
-    .cta-button { background: #2563eb; color: white; padding: 1.1rem 0.5rem; border-radius: 0.6rem; font-weight: 900; font-size: 1.1rem; border: none; cursor: pointer; width: 100%; transition: transform 0.1s; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; text-transform: uppercase; }
+    .cta-button { background: #2563eb; color: white; padding: 1.1rem 0.5rem; border-radius: 0.6rem; font-weight: 900; font-size: 1.1rem; border: none; cursor: pointer; width: 100%; transition: transform 0.1s, background 0.2s; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; text-transform: uppercase; }
+    .cta-button:hover { background: #1d4ed8; }
     .cta-button:active { transform: scale(0.97); }
     .cta-subtext { font-size: 0.65rem; font-weight: 500; opacity: 0.9; text-transform: none; }
 
@@ -50,7 +52,7 @@
     @keyframes flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.9; } }
     .per-year { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; color: #ffffff; }
     
-    /* TIME BENCHMARKS COMPARISON */
+    /* COMPARISON CARD */
     .comparison-card { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
     .tier-header { display: flex; justify-content: space-between; padding: 0 0.5rem; font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 0.25rem; }
     .tier-row { display: flex; justify-content: space-between; align-items: center; padding: 0.85rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; background: white; }
@@ -66,7 +68,7 @@
     .payoff-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.5rem; text-align: center; }
     .payoff-headline { font-weight: 800; color: #1e40af; font-size: 1.1rem; margin-bottom: 0.5rem; }
 
-    .guarantee-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 0.75rem; padding: 1rem; margin-top: 1.5rem; font-size: 0.8rem; color: #92400e; }
+    .guarantee-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 0.75rem; padding: 1rem; margin-top: 1.5rem; font-size: 0.8rem; color: #92400e; text-align: center; }
     .hidden { display: none !important; }
   </style>
 </head>
@@ -76,23 +78,23 @@
     <div id="initialState">
       <h1>Stop Paying the <span class="highlight-red"><br>"Friction Tax"</span><br>on every Meta Ad</h1>
       <p class="body-copy">
-        Most e-commerce brands spend a fortune on the ads to get visitors, then lose them instantly to the "Friction Tax." 
+        Most e-commerce brands spend a fortune on ads to get visitors, then lose them instantly to the "Friction Tax." 
       </p>
       
       <p class="offer-text">
-        Use the <span style="color:#2563eb; font-weight:800;">Catch Metrics Calculator™</span> to get a custom "Leak Audit" and we'll show you exactly how much revenue you're store is losing every month.
+        Use the <span style="color:#2563eb; font-weight:800;">Catch Metrics Calculator™</span> to get a custom "Leak Audit." We'll show you exactly how much revenue your store is losing every month.
       </p>
 
       <div class="card">
         <div class="input-group">
-          <input type="url" id="urlInput" class="input-field" placeholder="Website URL" />
+          <input type="url" id="urlInput" class="input-field" placeholder="Website URL (e.g. yourstore.com)" />
           <input type="number" id="monthlyTraffic" class="input-field" placeholder="Monthly Visitors" />
           <input type="number" id="aov" class="input-field" placeholder="Avg Order Value ($)" />
         </div>
         
         <button class="cta-button" onclick="runDiagnostic()">
           🛡️ SHOW ME MY LOST REVENUE
-          <span class="cta-subtext">Free Audit. Results in < 60 Seconds. No CC Required.</span>
+          <span class="cta-subtext">Free Leak Audit. Results in < 60 Seconds.</span>
         </button>
       </div>
     </div>
@@ -109,7 +111,7 @@
         <div class="leak-total" id="leakDisplay">$36,000</div>
         <div class="per-year">Per Year.</div>
         <p style="font-size: 0.85rem; color: #9ca3af; margin-top: 1rem;">
-          The "Friction Tax" is siphoning off <strong>57%</strong> of your potential profit.
+          Your site is currently <strong>57.1% less efficient</strong> than elite competitors.
         </p>
       </div>
 
@@ -131,7 +133,7 @@
         <div class="tier-row">
           <div class="tier-info">
             <span class="tier-label">Industry Average</span>
-            <span class="tier-sub">B2B Benchmarks</span>
+            <span class="tier-sub">Standard Benchmark</span>
           </div>
           <div class="tier-stats">
             <div class="tier-speed">2.4s</div>
@@ -153,16 +155,17 @@
       <div class="payoff-box">
         <p class="payoff-headline">The Payoff: Closing this gap adds <span id="monthlyGain">$3,000</span>/mo directly to your bottom line.</p>
         <p style="font-size: 0.9rem; color: #1e3a8a; line-height: 1.4;">
-          You don't need more ads. You just need to stop losing the visitors you already paid for.
+          You don't need more traffic. You just need to stop losing the visitors you've already paid for.
         </p>
       </div>
 
       <button class="cta-button" onclick="alert('Opening Recovery Plan...')">
         🛡️ CLAIM MY <span id="btnAmount">$3,000</span>/MO RECOVERY PLAN
+        <span class="cta-subtext">No commitment. Just a roadmap to fix the leak.</span>
       </button>
 
       <div class="guarantee-box">
-        <strong>The "Don't Waste My Time" Guarantee:</strong> If I can’t show you exactly where to find at least $5,000 in recovered revenue, I will Venmo you $100 on the spot.
+        <strong>The "Don't Waste My Time" Guarantee:</strong> If we can’t show you exactly where to find at least $5,000 in recovered revenue via our RUM diagnostic, we will Venmo you $100 for your time.
       </div>
     </div>
   </div>
@@ -171,14 +174,15 @@
     const auditSteps = [
       "Analyzing Script Latency...",
       "Measuring LCP Friction...",
-      "Calculating Bounce Impact...",
-      "Compiling Recovery Plan..."
+      "Simulating Mobile Bounce Impact...",
+      "Scanning for Third-Party Bloat...",
+      "Compiling Revenue Recovery Plan..."
     ];
 
     function runDiagnostic() {
       const traffic = document.getElementById('monthlyTraffic').value;
       const aov = document.getElementById('aov').value;
-      if(!traffic || !aov) return alert("Enter traffic and AOV.");
+      if(!traffic || !aov) return alert("Please enter your traffic and AOV to run the audit.");
 
       document.getElementById('initialState').classList.add('hidden');
       document.getElementById('loadingState').classList.remove('hidden');
@@ -200,7 +204,7 @@
             stepEl.innerHTML = `<span style="color:#10b981; font-weight:bold;">✓</span> <span>${auditSteps[currentStep]}</span>`;
             currentStep++;
             processNextStep();
-          }, 900);
+          }, 800);
         } else {
           calculateAndShow(traffic, aov);
         }
@@ -209,6 +213,7 @@
     }
 
     function calculateAndShow(traffic, aov) {
+      // Logic based on conversion delta (1.8% vs 4.2%)
       const currentConv = 0.018; 
       const eliteConv = 0.042; 
       const monthlyCurrent = traffic * currentConv * aov;
