@@ -18,7 +18,8 @@
     /* Typography */
     h1 { font-size: clamp(1.7rem, 8vw, 2.3rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 0.6rem; text-align: center; color: #111827; }
     .highlight-red { color: #dc2626; }
-    .subheadline { font-size: 1rem; color: #4b5563; text-align: center; margin-bottom: 1.25rem; max-width: 95%; margin-left: auto; margin-right: auto; }
+    .subheadline { font-size: 0.95rem; color: #4b5563; text-align: center; margin-bottom: 1.25rem; max-width: 95%; margin-left: auto; margin-right: auto; }
+    .algorithm-text { color: #2563eb; font-weight: 700; }
 
     /* Main Card */
     .card { background: white; border-radius: 1rem; padding: 1.25rem; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-bottom: 1rem; }
@@ -66,7 +67,10 @@
   <div class="container">
     <div id="initialState">
       <h1>Is Your B2B Storefront Leaking <span class="highlight-red">30% of Your Top Line?</span></h1>
-      <p class="subheadline">Most brands pay the "Ad Tax" to get visitors, then pay a "Friction Tax" because their site is too slow to convert them.</p>
+      <p class="subheadline">
+        Most brands pay the "Ad Tax" to get visitors, then pay a "Friction Tax" because their site is too slow to convert them. 
+        <span class="algorithm-text">Use the Catch Metrics Algorithm™ to see exactly how much revenue you are losing each month.</span>
+      </p>
       
       <div class="card">
         <div class="input-group">
@@ -75,7 +79,7 @@
           <input type="number" id="aov" class="input-field" placeholder="Avg Order Value ($)" />
         </div>
         
-        <button class="cta-button" onclick="runDiagnostic()">🛡️ FIND MY LOST PROFIT</button>
+        <button class="cta-button" onclick="runDiagnostic()">🛡️ FIND MY LOST REVENUE</button>
         <p style="font-size: 0.75rem; color: #6b7280; text-align: center; margin-top: 0.75rem;">Results in < 60 seconds. No CC required.</p>
       </div>
     </div>
