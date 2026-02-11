@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background: #f8f9fa;
+      color: #1a1d29;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1024px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .alert-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: 9999px;
+      padding: 0.5rem 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .alert-badge svg {
+      width: 16px;
+      height: 16px;
+      color: #3b82f6;
+    }
+
+    .alert-badge-text {
+      font-size: 0.875rem;
+      color: #3b82f6;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      line-height: 1.2;
+    }
+
+    .gradient-text {
+      background: linear-gradient(to right, #3b82f6, #2563eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subheadline {
+      font-size: clamp(1.25rem, 3vw, 1.5rem);
+      color: #64748b;
+      max-width: 42rem;
+      margin: 0 auto;
+    }
+
+    .highlight {
+      color: #3b82f6;
+      font-weight: 600;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .card {
+        padding: 3rem;
+      }
+    }
+
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .input-row {
+        flex-direction: row;
+      }
+    }
+
+    .url-input {
+      flex: 1;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      padding: 1rem 1.25rem;
+      font-size: 1rem;
+      color: #1e293b;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .url-input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .url-input::placeholder {
+      color: #94a3b8;
+    }
+
+    .scan-button {
+      background: #3b82f6;
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+      color: white;
+    }
+
+    .scan-button:hover {
+      background: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .features {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .loading-title {
+      font-size: 1.875rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      text-align: center;
+      color: #1e293b;
+    }
+
+    .loading-subtitle {
+      color: #64748b;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .progress-bar-bg {
+      height: 0.75rem;
+      background: #e2e8f0;
+      border-radius: 9999px;
+      overflow: hidden;
+      border: none;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: #3b82f6;
+      transition: width 0.3s ease-out;
+      width: 0%;
+    }
+
+    .progress-percent {
+      text-align: center;
+      color: #3b82f6;
+      font-family: monospace;
+      font-weight: 600;
+      margin-bottom: 2rem;
+    }
+
+    .checks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    .check-item {
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+
+    .check-item.active {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: #3b82f6;
+      color: #1e293b;
+    }
+
+    .loss-card {
+      background: linear-gradient(to bottom right, rgba(59, 130, 246, 0.05), rgba(37, 99, 235, 0.05));
+      border-radius: 1rem;
+      padding: 2rem;
+      border: 2px solid rgba(59, 130, 246, 0.2);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .loss-card {
+        padding: 3rem;
+      }
+    }
+
+    .loss-header {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #3b82f6;
+      margin-bottom: 1.5rem;
+    }
+
+    .loss-amount {
+      font-size: clamp(3rem, 10vw, 5rem);
+      font-weight: 900;
+      color: #3b82f6;
+      margin-bottom: 1rem;
+    }
+
+    .loss-description {
+      font-size: 1.25rem;
+      color: #475569;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: #1e293b;
+    }
+
+    .speed-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .speed-box {
+      text-align: center;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .speed-value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .speed-value.red {
+      color: #ef4444;
+    }
+
+    .speed-value.cyan {
+      color: #3b82f6;
+    }
+
+    .speed-label {
+      color: #64748b;
+      font-size: 0.875rem;
+    }
+
+    .math-box {
+      padding: 1rem;
+      background: #fef3c7;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      color: #78350f;
+    }
+
+    .killers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    .killer-box {
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      background: rgba(59, 130, 246, 0.05);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .killer-title {
+      font-weight: bold;
+      color: #3b82f6;
+      margin-bottom: 0.75rem;
+    }
+
+    .killer-description {
+      color: #64748b;
+      font-size: 0.875rem;
+    }
+
+    .cta-card {
+      background: #3b82f6;
+      border-radius: 1rem;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (min-width: 768px) {
+      .cta-card {
+        padding: 3rem;
+      }
+    }
+
+    .cta-title {
+      font-size: clamp(1.875rem, 5vw, 2.25rem);
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    .cta-description {
+      font-size: 1.125rem;
+      color: #dbeafe;
+      margin-bottom: 2rem;
+      max-width: 42rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-button {
+      background: white;
+      color: #3b82f6;
+      padding: 1rem 2.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1.125rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cta-button:hover {
+      background: #f1f5f9;
+      transform: translateY(-1px);
+    }
+
+    .cta-note {
+      margin-top: 1rem;
+      color: #dbeafe;
+      font-size: 0.875rem;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      max-width: 28rem;
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #1e293b;
+    }
+
+    .modal-description {
+      color: #64748b;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      background: white;
+      border: 1px solid #cbd5e1;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      color: #1e293b;
+      margin-bottom: 1rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+    }
+
+    .modal-button {
+      flex: 1;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-button.cancel {
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .modal-button.cancel:hover {
+      background: #cbd5e1;
+    }
+
+    .modal-button.submit {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .modal-button.submit:hover {
+      background: #2563eb;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="alert-badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <span class="alert-badge-text">UNINSURED REVENUE DETECTED</span>
+      </div>
+      
+      <h1>
+        Your Revenue Isn't Insured Against
+        <span class="gradient-text">Technical Friction</span>.<br />
+        We're Here to Fix That.
+      </h1>
+      
+      <p class="subheadline">
+        Most B2B brands lose <span class="highlight">20-30% of their top line</span> to 'silent killers' they can't see. Our 60-second scan acts as your Revenue Insurance Policy—identifying exactly where your cash is leaking and how to lock it down.
+      </p>
+    </div>
+
+    <!-- Initial State -->
+    <div id="initialState" class="card">
+      <div class="input-row">
+        <input
+          type="url"
+          id="urlInput"
+          class="url-input"
+          placeholder="Enter your website URL for Revenue Protection Quote"
+        />
+      </div>
+      
+      <div class="input-row" style="margin-top: 1rem;">
+        <input
+          type="number"
+          id="monthlyVisitors"
+          class="url-input"
+          placeholder="Monthly Website Visitors (e.g., 25000)"
+          min="0"
+        />
+        <input
+          type="number"
+          id="avgOrderValue"
+          class="url-input"
+          placeholder="Average Order / Lead Value ($)"
+          min="0"
+        />
+      </div>
+      
+      <div class="input-row" style="margin-top: 1rem;">
+        <button id="scanButton" class="scan-button" type="button" style="width: 100%;" onclick="runAudit()">
+          🛡️ Audit My Policy
+        </button>
+      </div>
+      
+      <div class="features">
+        <div class="feature">
+          <span>✓ Free Underwriting</span>
+        </div>
+        <div class="feature">
+          <span>✓ 60-Second Scan</span>
+        </div>
+        <div class="feature">
+          <span>✓ No Credit Card</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loadingState" class="card hidden">
+      <h2 class="loading-title">Running Revenue Insurance Underwriting...</h2>
+      <p class="loading-subtitle" id="currentCheck">Initializing...</p>
+
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progressBar"></div>
+      </div>
+      <div class="progress-percent" id="progressPercent">0%</div>
+
+      <div class="checks-grid" id="checksGrid"></div>
+    </div>
+
+    <!-- Results State -->
+    <div id="resultsState" class="hidden">
+      <!-- Main Loss Card -->
+      <div class="loss-card">
+        <h2 class="loss-header">🚨 UNINSURED REVENUE RISK</h2>
+        <div class="loss-amount" id="lossAmount">$0</div>
+        <p class="loss-description">
+          Based on your current speed and conversion metrics, you have <span class="highlight" id="speedGap">0s</span> of unprotected revenue exposure. That's cash you've already paid to acquire via ads or SEO, but are 'dropping' before it hits the bank.
+        </p>
+      </div>
+
+      <!-- Speed Gap -->
+      <div class="card">
+        <h3 class="section-title">⚠️ The 'Safe Limit' Violation</h3>
+        
+        <div class="speed-grid">
+          <div class="speed-box">
+            <div class="speed-value red" id="currentSpeed">0s</div>
+            <div class="speed-label">Your Load Time</div>
+          </div>
+          
+          <div class="speed-box">
+            <div class="speed-value cyan">2.0s</div>
+            <div class="speed-label">Safe Limit</div>
+          </div>
+        </div>
+
+        <div class="math-box" id="mathText">
+          <strong>The Insurance Math:</strong> Calculating...
+        </div>
+        
+        <p style="margin-top: 1rem; color: #64748b; font-size: 0.875rem;">
+          Your site is <span id="speedGapText" style="color: #3b82f6; font-weight: 600;">0s</span> over the 'Safe Limit.' In the insurance world, this is a high-risk violation that costs you <span style="color: #d97706; font-weight: 600;">15% of your traffic's value</span>.
+        </p>
+      </div>
+
+      <!-- Technical Killers -->
+      <div class="card">
+        <h3 class="section-title">🔧 The Technical Killers</h3>
+        
+        <div class="killers-grid">
+          <div class="killer-box">
+            <h4 class="killer-title">🖼️ Unoptimized Images</h4>
+            <p class="killer-description" id="imageKiller">
+              Heavy, uncompressed images are adding time to your load time. 
+              That's thousands in lost sales daily.
+            </p>
+          </div>
+          
+          <div class="killer-box">
+            <h4 class="killer-title">💻 Third-Party Script Bloat</h4>
+            <p class="killer-description">
+              Analytics, chat widgets, and tracking pixels are killing your performance. 
+              Every tag costs conversions.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-card">
+        <h3 class="cta-title">Claim Your Revenue Insurance Policy</h3>
+        <p class="cta-description">
+          We don't just find the holes; we plug them. Book a 30-minute 'Underwriting Call' where we'll hand you the exact checklist to insure your revenue against technical friction forever.
+        </p>
+        <button id="ctaButton" class="cta-button" type="button" onclick="openBookingModal()">
+          🛡️ Book My Underwriting Call
+        </button>
+        <p class="cta-note">
+          <strong>Risk Reversal:</strong> If we can't show you how to 'insure' at least $5,000 in annual revenue during this call, I'll pay for your next month of hosting myself.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Modal -->
+  <div id="bookingModal" class="modal" onclick="closeModalOnOutside(event)">
+    <div class="modal-content">
+      <h3 class="modal-title">Book Your Underwriting Call</h3>
+      <p class="modal-description">
+        Enter your details and we'll send you a calendar link to book your 30-minute Revenue Insurance Underwriting session.
+      </p>
+      
+      <form id="bookingForm" onsubmit="submitBooking(event)">
+        <input type="text" class="form-input" placeholder="Full Name" required />
+        <input type="email" class="form-input" placeholder="Work Email" required />
+        <input type="tel" class="form-input" placeholder="Phone Number" required />
+        
+        <div class="modal-buttons">
+          <button type="button" class="modal-button cancel" onclick="closeBookingModal()">Cancel</button>
+          <button type="submit" class="modal-button submit">Book Call</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Technical checks
+      var technicalChecks = [
+        { label: 'Analyzing Core Web Vitals...', delay: 800 },
+        { label: 'Measuring Largest Contentful Paint (LCP)...', delay: 1200 },
+        { label: 'Checking Script Bloat & Third-Party Tags...', delay: 1000 },
+        { label: 'Auditing Image Optimization...', delay: 900 },
+        { label: 'Calculating Conversion Drop-off Rate...', delay: 1100 },
+        { label: 'Measuring Time to Interactive (TTI)...', delay: 800 },
+        { label: 'Analyzing Revenue Impact...', delay: 1000 }
+      ];
+
+      var auditResults = null;
+
+      // Format currency
+      function formatCurrency(num) {
+        return '$' + Math.round(num).toLocaleString('en-US');
+      }
+
+      // Create check items
+      function createCheckItems() {
+        var checksGrid = document.getElementById('checksGrid');
+        checksGrid.innerHTML = '';
+        
+        for (var i = 0; i < 4; i++) {
+          var div = document.createElement('div');
+          div.className = 'check-item';
+          div.id = 'check-' + i;
+          div.textContent = technicalChecks[i].label.split('...')[0];
+          checksGrid.appendChild(div);
+        }
+      }
+
+      // Generate audit results
+      function generateResults() {
+        var loadTime = (Math.random() * 3 + 2.5).toFixed(2);
+        var speedGap = (loadTime - 2.0).toFixed(2);
+        var conversionRate = 0.03;
+        
+        var monthlyTraffic = parseInt(document.getElementById('monthlyVisitors').value);
+        var avgOrderValue = parseInt(document.getElementById('avgOrderValue').value);
+
+        var currentRevenue = monthlyTraffic * conversionRate * avgOrderValue * 12;
+        var optimizedConversionRate = conversionRate * 1.25;
+        var optimizedRevenue = monthlyTraffic * optimizedConversionRate * avgOrderValue * 12;
+        var revenueLoss = Math.round(optimizedRevenue - currentRevenue);
+
+        auditResults = {
+          loadTime: parseFloat(loadTime),
+          speedGap: parseFloat(speedGap),
+          revenueLoss: revenueLoss,
+          monthlyTraffic: monthlyTraffic,
+          currentConversionRate: (conversionRate * 100).toFixed(2),
+          potentialConversionRate: (optimizedConversionRate * 100).toFixed(2)
+        };
+
+        displayResults();
+      }
+
+      // Display results
+      function displayResults() {
+        document.getElementById('initialState').classList.add('hidden');
+        document.getElementById('loadingState').classList.add('hidden');
+        document.getElementById('resultsState').classList.remove('hidden');
+
+        document.getElementById('lossAmount').textContent = formatCurrency(auditResults.revenueLoss);
+        document.getElementById('speedGap').textContent = formatCurrency(auditResults.revenueLoss) + '/year';
+        document.getElementById('speedGapText').textContent = auditResults.speedGap + 's';
+        document.getElementById('currentSpeed').textContent = auditResults.loadTime + 's';
+
+        var mathText = '<strong>The Insurance Math:</strong> ' + auditResults.monthlyTraffic.toLocaleString() + 
+          ' monthly visitors × conversion lift from ' + auditResults.currentConversionRate + 
+          '% to ' + auditResults.potentialConversionRate + '% = <span class="highlight">' + 
+          formatCurrency(auditResults.revenueLoss) + '/year</span> in protected revenue';
+        document.getElementById('mathText').innerHTML = mathText;
+
+        var imageKillerText = 'Heavy, uncompressed images are adding ' + 
+          (auditResults.speedGap * 0.4).toFixed(1) + 
+          's to your load time. That\'s thousands in unprotected revenue daily.';
+        document.getElementById('imageKiller').textContent = imageKillerText;
+      }
+
+      // Run audit - make it global
+      window.runAudit = function() {
+        var urlInput = document.getElementById('urlInput');
+        var monthlyVisitors = document.getElementById('monthlyVisitors');
+        var avgOrderValue = document.getElementById('avgOrderValue');
+        
+        if (!urlInput.value) {
+          alert('Please enter a website URL');
+          return;
+        }
+        
+        if (!monthlyVisitors.value || monthlyVisitors.value <= 0) {
+          alert('Please enter your monthly website visitors');
+          return;
+        }
+        
+        if (!avgOrderValue.value || avgOrderValue.value <= 0) {
+          alert('Please enter your average order/lead value');
+          return;
+        }
+
+        document.getElementById('initialState').classList.add('hidden');
+        document.getElementById('loadingState').classList.remove('hidden');
+        document.getElementById('resultsState').classList.add('hidden');
+
+        createCheckItems();
+
+        var checkIndex = 0;
+        var totalProgress = 0;
+        var progressPerCheck = 100 / technicalChecks.length;
+
+        function runNextCheck() {
+          if (checkIndex < technicalChecks.length) {
+            document.getElementById('currentCheck').textContent = technicalChecks[checkIndex].label;
+
+            var checkItemIndex = Math.min(checkIndex, 3);
+            var checkItem = document.getElementById('check-' + checkItemIndex);
+            if (checkItem) {
+              checkItem.classList.add('active');
+            }
+
+            var currentDelay = technicalChecks[checkIndex].delay;
+            checkIndex++;
+
+            setTimeout(function() {
+              totalProgress += progressPerCheck;
+              var progress = Math.min(totalProgress, 100);
+              document.getElementById('progressBar').style.width = progress + '%';
+              document.getElementById('progressPercent').textContent = Math.round(progress) + '%';
+              runNextCheck();
+            }, currentDelay);
+          } else {
+            generateResults();
+          }
+        }
+
+        runNextCheck();
+      };
+
+      // Modal functions - make them global
+      window.openBookingModal = function() {
+        document.getElementById('bookingModal').classList.add('active');
+      };
+
+      window.closeBookingModal = function() {
+        document.getElementById('bookingModal').classList.remove('active');
+      };
+
+      window.closeModalOnOutside = function(e) {
+        if (e.target === document.getElementById('bookingModal')) {
+          closeBookingModal();
+        }
+      };
+
+      window.submitBooking = function(e) {
+        e.preventDefault();
+        alert('Thank you! We\'ll send you a calendar link shortly.');
+        closeBookingModal();
+        document.getElementById('bookingForm').reset();
+      };
+
+      // Event listeners as backup
+      document.getElementById('urlInput').onkeypress = function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          runAudit();
+        }
+      };
+    })();
+  </script>
+</body>
+</html>
