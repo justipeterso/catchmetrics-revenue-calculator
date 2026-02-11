@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Revenue Leakage Audit</title>
+  <title>Revenue Leak Audit | CatchMetrics</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -16,49 +16,50 @@
     .container { width: 100%; max-width: 550px; margin: 0 auto; }
     
     /* Typography */
-    h1 { font-size: clamp(1.7rem, 8vw, 2.3rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 0.6rem; text-align: center; color: #111827; }
+    h1 { font-size: clamp(1.6rem, 7.5vw, 2.2rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.04em; margin-bottom: 0.75rem; text-align: center; color: #111827; text-transform: uppercase; }
     .highlight-red { color: #dc2626; }
-    .subheadline { font-size: 0.95rem; color: #4b5563; text-align: center; margin-bottom: 1.25rem; max-width: 95%; margin-left: auto; margin-right: auto; }
-    .algorithm-text { color: #2563eb; font-weight: 700; }
+    .body-copy { font-size: 1rem; color: #374151; text-align: center; margin-bottom: 1rem; }
+    .offer-text { font-size: 0.95rem; color: #4b5563; text-align: center; margin-bottom: 1.25rem; background: #fff; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; }
 
-    /* Main Card */
+    /* Cards */
     .card { background: white; border-radius: 1rem; padding: 1.25rem; border: 1px solid #e5e7eb; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); margin-bottom: 1rem; }
     
     /* Inputs */
-    .input-group { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem; }
+    .input-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
     .input-field { width: 100%; background: #f9fafb; border: 1px solid #d1d5db; border-radius: 0.5rem; padding: 0.8rem; font-size: 1rem; outline: none; }
     
     /* Buttons */
-    .cta-button { background: #2563eb; color: white; padding: 1.1rem; border-radius: 0.6rem; font-weight: 800; font-size: 1.2rem; border: none; cursor: pointer; width: 100%; transition: transform 0.1s; text-transform: uppercase; letter-spacing: 0.02em; }
+    .cta-button { background: #2563eb; color: white; padding: 1.1rem 0.5rem; border-radius: 0.6rem; font-weight: 900; font-size: 1.1rem; border: none; cursor: pointer; width: 100%; transition: transform 0.1s; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; text-transform: uppercase; }
     .cta-button:active { transform: scale(0.97); }
+    .cta-subtext { font-size: 0.65rem; font-weight: 500; opacity: 0.9; text-transform: none; }
 
     /* Loading Sequence */
     .progress-bar { height: 0.5rem; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin: 1rem 0; }
     .progress-fill { height: 100%; background: #2563eb; width: 0%; transition: width 0.4s ease; }
-    .step-item { padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #f3f4f6; background: #f9fafb; font-size: 0.85rem; display: flex; align-items: center; gap: 0.75rem; color: #9ca3af; margin-bottom: 0.5rem; }
+    .step-item { padding: 0.6rem; border-radius: 0.5rem; border: 1px solid #f3f4f6; background: #f9fafb; font-size: 0.8rem; display: flex; align-items: center; gap: 0.75rem; color: #9ca3af; margin-bottom: 0.4rem; }
     .step-item.active { border-color: #3b82f6; background: #eff6ff; color: #1e40af; font-weight: 600; }
     .step-item.completed { border-color: #d1fae5; background: #f0fdf4; color: #065f46; }
-    .spinner { width: 14px; height: 14px; border: 2px solid #e5e7eb; border-top-color: #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
+    .spinner { width: 12px; height: 12px; border: 2px solid #e5e7eb; border-top-color: #3b82f6; border-radius: 50%; animation: spin 1s linear infinite; display: none; }
     .step-item.active .spinner { display: block; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Results UI */
-    .shock-header { background: #111827; color: white; border-radius: 0.75rem; padding: 1.5rem 1rem; text-align: center; margin-bottom: 1rem; }
-    .leak-total { font-size: 2.8rem; font-weight: 900; color: #f87171; line-height: 1; margin: 0.5rem 0; }
-    .pulse { width: 10px; height: 10px; background: #ef4444; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 2s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
+    /* NEW RESULTS STYLES */
+    .shock-header { background: #111827; color: white; border-radius: 0.75rem; padding: 1.5rem 1rem; text-align: center; margin-bottom: 1rem; border-bottom: 4px solid #dc2626; }
+    .leak-total { font-size: 2.2rem; font-weight: 900; color: #f87171; line-height: 1.1; margin: 0.5rem 0; text-transform: uppercase; }
+    .results-sub { font-size: 0.95rem; color: #d1d5db; line-height: 1.4; margin-top: 0.5rem; }
+    
+    .comparison-card { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
+    .tier-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; }
+    .tier-row.gold { background: #f0fdf4; border-color: #bbf7d0; }
+    .tier-row.leak { background: #fef2f2; border-color: #fecaca; }
+    .tier-label { font-size: 0.85rem; font-weight: 700; color: #374151; }
+    .tier-value { font-family: monospace; font-size: 1.1rem; font-weight: 800; }
+    
+    .payoff-box { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.5rem; text-align: center; }
+    .payoff-headline { font-weight: 800; color: #1e40af; font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .payoff-body { font-size: 0.9rem; color: #1e3a8a; line-height: 1.4; }
 
-    .comp-table { width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.85rem; }
-    .comp-table th { text-align: left; padding: 0.5rem; color: #6b7280; font-weight: 600; border-bottom: 1px solid #f3f4f6; }
-    .comp-table td { padding: 0.75rem 0.5rem; border-top: 1px solid #f3f4f6; }
-    .top-1 { background: #f0fdf4; color: #15803d; font-weight: 700; }
-    .your-site { background: #fef2f2; color: #b91c1c; font-weight: 700; }
-
-    .math-card { background: #f8fafc; border-left: 4px solid #2563eb; padding: 1rem; margin-top: 1rem; }
-    .math-row { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.85rem; }
-    .math-row.total { border-top: 1px solid #e2e8f0; padding-top: 0.5rem; font-weight: 800; color: #2563eb; }
-
-    .guarantee-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 0.75rem; padding: 1rem; margin-top: 1.5rem; font-size: 0.85rem; color: #92400e; }
+    .guarantee-box { background: #fffbeb; border: 2px dashed #f59e0b; border-radius: 0.75rem; padding: 1rem; margin-top: 1.5rem; font-size: 0.8rem; color: #92400e; }
     .hidden { display: none !important; }
   </style>
 </head>
@@ -66,81 +67,78 @@
 
   <div class="container">
     <div id="initialState">
-      <h1>Is Your B2B Storefront Leaking <span class="highlight-red">30% of Your Top Line?</span></h1>
-      <p class="subheadline">
-        Most brands pay the "Ad Tax" to get visitors, then pay a "Friction Tax" because their site is too slow to convert them. 
-        <span class="algorithm-text"><BR></BR>Use the Catch Metrics Algorithm™ to see exactly how much revenue you are losing each month.</span>
+      <h1>Stop Paying the <span class="highlight-red">"Friction Tax"</span></h1>
+      <p class="body-copy">
+        Most brands spend a fortune on the "Ad Tax" to get visitors, then lose them instantly to the "Friction Tax." <strong>You’re working 2x harder for 1/2 the results.</strong>
       </p>
       
+      <p class="offer-text">
+        Use the <span style="color:#2563eb; font-weight:800;">Catch Metrics Algorithm™</span> to get a custom "Leak Audit." We'll show you exactly how much you're losing every 30 days.
+      </p>
+
       <div class="card">
         <div class="input-group">
-          <input type="url" id="urlInput" class="input-field" placeholder="Your Website URL" />
+          <input type="url" id="urlInput" class="input-field" placeholder="Website URL" />
           <input type="number" id="monthlyTraffic" class="input-field" placeholder="Monthly Visitors" />
           <input type="number" id="aov" class="input-field" placeholder="Avg Order Value ($)" />
         </div>
         
-        <button class="cta-button" onclick="runDiagnostic()">🛡️ FIND MY LOST REVENUE</button>
-        <p style="font-size: 0.75rem; color: #6b7280; text-align: center; margin-top: 0.75rem;">Results in < 60 seconds. No CC required.</p>
+        <button class="cta-button" onclick="runDiagnostic()">
+          🛡️ SHOW ME MY LOST REVENUE
+          <span class="cta-subtext">Free Audit. Results in < 60 Seconds. No CC Required.</span>
+        </button>
       </div>
     </div>
 
     <div id="loadingState" class="card hidden">
-      <p style="font-weight: 800; font-size: 1.1rem; text-align: center;">Running CatchMetrics™ Diagnostic</p>
+      <p style="font-weight: 800; font-size: 1.1rem; text-align: center;">Initializing CatchMetrics™ Algorithm</p>
       <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
       <div id="stepsContainer"></div>
     </div>
 
     <div id="resultsState" class="hidden">
       <div class="shock-header">
-        <div style="font-size: 0.75rem; font-weight: 800; color: #f87171;"><span class="pulse"></span>LIVE AUDIT: CRITICAL RISK</div>
-        <div class="leak-total" id="leakDisplay">$0/YR</div>
-        <p style="font-size: 0.85rem; color: #9ca3af;">UNPROTECTED REVENUE GAP</p>
+        <p style="font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; color: #f87171;">AUDIT COMPLETE</p>
+        <h2 class="leak-total">Your Storefront Has a Critical <span id="leakDisplay">$36,000</span> Revenue Leak.</h2>
+        <p class="results-sub">
+          While you're sleeping, the "Friction Tax" is siphoning off <strong>57%</strong> of your potential profit.
+        </p>
       </div>
 
-      <div class="card">
-        <p style="font-weight: 800; font-size: 1rem; margin-bottom: 0.5rem;">Competitive Benchmark</p>
-        <table class="comp-table">
-          <thead>
-            <tr><th>Tier</th><th>Speed</th><th>Conv.</th></tr>
-          </thead>
-          <tbody>
-            <tr class="top-1"><td>Top 1% Performers</td><td>0.8s</td><td>4.20%</td></tr>
-            <tr><td>Industry Average</td><td>2.4s</td><td>2.10%</td></tr>
-            <tr class="your-site"><td>Your Website</td><td id="actualSpeed">3.4s</td><td id="actualConv">1.80%</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="card">
-        <p style="font-weight: 800; margin-bottom: 0.75rem;">Revenue Recovery Math</p>
-        <div class="math-card">
-          <div class="math-row"><span>Current Monthly Revenue:</span><span id="mathCurrent">$0</span></div>
-          <div class="math-row"><span>Loss vs Top 1% Efficiency:</span><span style="color:#dc2626;">-57% Drop</span></div>
-          <div class="math-row total"><span>Recoverable Monthly Profit:</span><span id="mathDelta">$0</span></div>
+      <div class="comparison-card">
+        <div class="tier-row gold">
+          <div class="tier-label">Top 1% Performers (The Gold Standard)</div>
+          <div class="tier-value">4.20% Conv</div>
         </div>
-        
-        <div style="margin-top:1.25rem;">
-          <p style="font-size: 0.85rem; color:#4b5563;">
-            Closing the gap between you and the <strong>Top 1%</strong> adds <span id="perSecGain" style="color:#059669; font-weight:800;">$0</span>/mo to your bottom line.
-          </p>
+        <div class="tier-row leak">
+          <div class="tier-label">Your Website (The Leak)</div>
+          <div class="tier-value">1.80% Conv</div>
         </div>
       </div>
 
-      <div class="card">
-        <button class="cta-button" onclick="alert('Booking calendar opening...')">🛡️ CLAIM MY RECOVERED REVENUE</button>
-        <div class="guarantee-box">
-          <strong>The "Don't Waste My Time" Guarantee:</strong> If I can’t show you at least $5,000 in recovered revenue, I will Venmo you $100 on the spot.
-        </div>
+      <div class="payoff-box">
+        <p class="payoff-headline">The Payoff: Closing this gap adds <span id="monthlyGain">$3,000</span>/mo directly to your bottom line.</p>
+        <p class="payoff-body">
+          You don't need more ads. You just need to stop losing the visitors you already paid for.
+        </p>
+      </div>
+
+      <button class="cta-button" onclick="alert('Opening Recovery Plan...')">
+        🛡️ CLAIM MY <span id="btnAmount">$3,000</span>/MO RECOVERY PLAN
+      </button>
+
+      <div class="guarantee-box">
+        <strong>The "Don't Waste My Time" Guarantee:</strong> If I can’t show you exactly where to find at least $5,000 in recovered revenue, I will Venmo you $100 on the spot.
       </div>
     </div>
   </div>
 
   <script>
     const auditSteps = [
-      "Analyzing Third-Party Script Latency...",
-      "Measuring LCP Friction Points...",
-      "Calculating Revenue Bounce Impact...",
-      "Generating Competitive Comparison..."
+      "Analyzing Script Latency...",
+      "Measuring LCP Friction...",
+      "Calculating Bounce Impact...",
+      "Compiling Recovery Plan..."
     ];
 
     function runDiagnostic() {
@@ -168,7 +166,7 @@
             stepEl.innerHTML = `<span style="color:#10b981; font-weight:bold;">✓</span> <span>${auditSteps[currentStep]}</span>`;
             currentStep++;
             processNextStep();
-          }, 1000);
+          }, 900);
         } else {
           calculateAndShow(traffic, aov);
         }
@@ -177,22 +175,20 @@
     }
 
     function calculateAndShow(traffic, aov) {
+      // Current at 1.8%, Elite at 4.2%
       const currentConv = 0.018; 
       const eliteConv = 0.042; 
-      
       const monthlyCurrent = traffic * currentConv * aov;
       const monthlyElite = traffic * eliteConv * aov;
       const monthlyDelta = Math.round(monthlyElite - monthlyCurrent);
+      const annualLeak = monthlyDelta * 12;
 
       document.getElementById('loadingState').classList.add('hidden');
       document.getElementById('resultsState').classList.remove('hidden');
 
-      document.getElementById('leakDisplay').textContent = '$' + (monthlyDelta * 12).toLocaleString() + '/YR';
-      document.getElementById('mathCurrent').textContent = '$' + Math.round(monthlyCurrent).toLocaleString();
-      document.getElementById('mathDelta').textContent = '$' + monthlyDelta.toLocaleString() + '/mo';
-      document.getElementById('perSecGain').textContent = '$' + monthlyDelta.toLocaleString();
-      document.getElementById('actualSpeed').textContent = (Math.random() * 1.5 + 2.8).toFixed(2) + 's';
-      document.getElementById('actualConv').textContent = (currentConv * 100).toFixed(2) + '%';
+      document.getElementById('leakDisplay').textContent = '$' + annualLeak.toLocaleString();
+      document.getElementById('monthlyGain').textContent = '$' + monthlyDelta.toLocaleString();
+      document.getElementById('btnAmount').textContent = '$' + monthlyDelta.toLocaleString();
     }
   </script>
 </body>
