@@ -43,10 +43,11 @@
     .step-item.active .spinner { display: block; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* NEW RESULTS STYLES */
-    .shock-header { background: #111827; color: white; border-radius: 0.75rem; padding: 1.5rem 1rem; text-align: center; margin-bottom: 1rem; border-bottom: 4px solid #dc2626; }
-    .leak-total { font-size: 2.2rem; font-weight: 900; color: #f87171; line-height: 1.1; margin: 0.5rem 0; text-transform: uppercase; }
-    .results-sub { font-size: 0.95rem; color: #d1d5db; line-height: 1.4; margin-top: 0.5rem; }
+    /* SPECIFIC RESULTS HEADER UPDATE */
+    .shock-header { background: #111827; color: white; border-radius: 1rem; padding: 2.5rem 1rem; text-align: center; margin-bottom: 1rem; border-bottom: 5px solid #dc2626; }
+    .burn-text { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; line-height: 1.2; }
+    .leak-total { font-size: clamp(3.5rem, 15vw, 5rem); font-weight: 900; color: #ef4444; line-height: 1; margin: 0.5rem 0; display: block; }
+    .per-year { font-size: 1.5rem; font-weight: 800; text-transform: uppercase; color: #ffffff; }
     
     .comparison-card { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem; }
     .tier-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; }
@@ -67,9 +68,9 @@
 
   <div class="container">
     <div id="initialState">
-      <h1>Stop Paying the <span class="highlight-red"><br>"Friction Tax"</span></h1>
+      <h1>Stop Paying the <span class="highlight-red">"Friction Tax"</span></h1>
       <p class="body-copy">
-        Most brands spend a fortune on the "Ad Tax" to get visitors, then lose them instantly to the "Friction Tax." <strong><br><br>You’re working 2x harder for 1/2 the results.</strong>
+        Most brands spend a fortune on the "Ad Tax" to get visitors, then lose them instantly to the "Friction Tax." <strong>You’re working 2x harder for 1/2 the results.</strong>
       </p>
       
       <p class="offer-text">
@@ -98,9 +99,10 @@
 
     <div id="resultsState" class="hidden">
       <div class="shock-header">
-        <p style="font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; color: #f87171;">AUDIT COMPLETE</p>
-        <h2 class="leak-total">Your Storefront Has a Critical <span id="leakDisplay">$36,000</span> Revenue Leak.</h2>
-        <p class="results-sub">
+        <div class="burn-text">Your Storefront Is Burning</div>
+        <div class="leak-total" id="leakDisplay">$36,000</div>
+        <div class="per-year">Per Year.</div>
+        <p style="font-size: 0.85rem; color: #9ca3af; margin-top: 1rem;">
           The "Friction Tax" is siphoning off <strong>57%</strong> of your potential profit.
         </p>
       </div>
@@ -175,7 +177,6 @@
     }
 
     function calculateAndShow(traffic, aov) {
-      // Current at 1.8%, Elite at 4.2%
       const currentConv = 0.018; 
       const eliteConv = 0.042; 
       const monthlyCurrent = traffic * currentConv * aov;
